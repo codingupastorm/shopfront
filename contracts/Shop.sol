@@ -12,15 +12,16 @@ contract Shop is Owned {
 
 	mapping (uint256 => Product) public products;
 
-	LogProductAdded(uint256 id indexed, uint256 price, uint256 stock);
-	LogWithdrawal(uint256 amount);
-	LogPayment(address to indexed, uint256 amount);
-	LogProductBought(address buyer indexed, uint256 id indexed);
+	event LogProductAdded(uint256 indexed id, uint256 price, uint256 stock);
+	event LogWithdrawal(uint256 amount);
+	event LogPayment(address indexed to, uint256 amount);
+	event LogProductBought(address indexed buyer, uint256 indexed id);
 
 	// admin actions
 
 	function addProduct(uint256 id, uint256 price, uint256 stock)
 	onlyOwner
+	public
 	returns (bool) {
 		require(id > 0 && products[id].id == 0);
 		require(price > 0);
@@ -32,6 +33,7 @@ contract Shop is Owned {
 
 	function withdraw(uint256 amount)
 	onlyOwner
+	public
 	returns (bool) {
 		require(amount < this.balance && amount > 0);
 		msg.sender.transfer(amount);
@@ -41,6 +43,7 @@ contract Shop is Owned {
 
 	function pay(address to, uint256 amount)
 	onlyOwner
+	public
 	returns (bool) {
 		require(amount < this.balance && amount > 0);
 		to.transfer(amount);
@@ -52,6 +55,7 @@ contract Shop is Owned {
 
 	function buyProduct(uint256 id)
 	payable
+	public
 	returns (bool) {
 		require(products[id].stock > 0);
 		require(products[id].price >= msg.value);
