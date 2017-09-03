@@ -1,8 +1,9 @@
 pragma solidity ^0.4.2;
 
-import "./Owned.sol";
+import "./OwnedPayable.sol";
+import "./Mortal.sol";
 
-contract Shop is Owned {
+contract Shop is OwnedPayable, Mortal {
 
 	struct Product{
 		uint256 id;
@@ -13,6 +14,7 @@ contract Shop is Owned {
 	mapping (uint256 => Product) public products;
 
 	event LogProductAdded(uint256 indexed id, uint256 price, uint256 stock);
+	event LogProductRemoved(uint256 indexed id);
 	event LogWithdrawal(uint256 amount);
 	event LogPayment(address indexed to, uint256 amount);
 	event LogProductBought(address indexed buyer, uint256 indexed id);
@@ -28,6 +30,17 @@ contract Shop is Owned {
 		require(stock > 0);
 		products[id] = Product(id, price, stock);
 		LogProductAdded(id, price, stock);
+		return true;
+	}
+
+	function removeProduct(uint256 id)
+	onlyOwner
+	public
+	returns (bool){
+		require(id > 0 && products[id].id != 0);
+		products[id].id = 0;
+		products[id].price = 0;
+		products[id].stock = 0;
 		return true;
 	}
 
