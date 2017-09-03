@@ -6,7 +6,6 @@ import "./Mortal.sol";
 contract Shop is OwnedPayable, Mortal {
 
 	struct Product{
-		uint256 id;
 		uint256 price;
 		uint256 stock;
 	}
@@ -25,11 +24,11 @@ contract Shop is OwnedPayable, Mortal {
 	onlyOwner
 	public
 	returns (bool) {
-		require(id > 0 && products[id].id == 0);
+		require(id > 0 && products[id].price == 0); // id not used
 		require(price > 0);
 		require(stock > 0);
-		products[id] = Product(id, price, stock);
-		LogProductAdded(id, price, stock);
+		products[id] = Product(price, stock);
+		LogProductAdded(price, stock);
 		return true;
 	}
 
@@ -37,8 +36,7 @@ contract Shop is OwnedPayable, Mortal {
 	onlyOwner
 	public
 	returns (bool){
-		require(id > 0 && products[id].id != 0);
-		products[id].id = 0;
+		require(id > 0 && products[id].price != 0);
 		products[id].price = 0;
 		products[id].stock = 0;
 		return true;
