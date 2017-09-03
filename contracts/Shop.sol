@@ -28,7 +28,7 @@ contract Shop is OwnedPayable, Mortal {
 		require(price > 0);
 		require(stock > 0);
 		products[id] = Product(price, stock);
-		LogProductAdded(price, stock);
+		LogProductAdded(id, price, stock);
 		return true;
 	}
 

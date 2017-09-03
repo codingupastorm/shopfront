@@ -1,0 +1,238 @@
+{
+  "contract_name": "Shop",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "kill",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "removeProduct",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "products",
+      "outputs": [
+        {
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "name": "stock",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "buyProduct",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": true,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "name": "stock",
+          "type": "uint256"
+        }
+      ],
+      "name": "addProduct",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "pay",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "payable": true,
+      "type": "fallback"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "name": "stock",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogProductAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogProductRemoved",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogWithdrawal",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogPayment",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "buyer",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogProductBought",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x60606040525b60008054600160a060020a03191633600160a060020a03161790555b5b6105fb806100316000396000f3006060604052361561008b5763ffffffff7c01000000000000000000000000000000000000000000000000000000006000350416632e1a7d4d81146100ab57806341c0e1b5146100d55780635ee95cae146100ea5780637acc0b20146101145780638642269e146101425780638da5cb5b146101615780639937b38f14610190578063c4076876146101c0575b5b60005433600160a060020a039081169116146100a757600080fd5b5b5b005b34156100b657600080fd5b6100c16004356101f6565b604051901515815260200160405180910390f35b34156100e057600080fd5b6100a76102a4565b005b34156100f557600080fd5b6100c16004356102ce565b604051901515815260200160405180910390f35b341561011f57600080fd5b61012a600435610333565b60405191825260208201526040908101905180910390f35b6100c160043561034c565b604051901515815260200160405180910390f35b341561016c57600080fd5b610174610431565b604051600160a060020a03909116815260200160405180910390f35b341561019b57600080fd5b6100c1600435602435604435610440565b604051901515815260200160405180910390f35b34156101cb57600080fd5b6100c1600160a060020a0360043516602435610516565b604051901515815260200160405180910390f35b6000805433600160a060020a0390811691161461021257600080fd5b30600160a060020a0316318210801561022b5750600082115b151561023657600080fd5b600160a060020a03331682156108fc0283604051600060405180830381858888f19350505050151561026757600080fd5b7fa26d6de68d7cc61e250566e49297af6d4a7dfb4b5a0185fb55db62de319154818260405190815260200160405180910390a15060015b5b919050565b60005433600160a060020a039081169116146102bf57600080fd5b33600160a060020a0316ff5b5b565b6000805433600160a060020a039081169116146102ea57600080fd5b600082118015610307575060008281526001602052604090205415155b151561031257600080fd5b50600081815260016020819052604082208281558101919091555b5b919050565b6001602081905260009182526040909120805491015482565b60008181526001602081905260408220015481901161036a57600080fd5b6000828152600160205260409020543490101561038657600080fd5b60008281526001602081905260409091209081018054600019019055543411156103f0576000828152600160205260409081902054600160a060020a03331691349190910380156108fc029151600060405180830381858888f1935050505015156103f057600080fd5b5b8133600160a060020a03167f2a1dd6cb9e7902923b78304c7bcfc0f76f8b43f2313e44529891f97f4335e54560405160405180910390a35060015b919050565b600054600160a060020a031681565b6000805433600160a060020a0390811691161461045c57600080fd5b6000841180156104785750600084815260016020526040902054155b151561048357600080fd5b6000831161049057600080fd5b6000821161049d57600080fd5b6040805190810160409081528482526020808301859052600087815260019091522081518155602082015160019091015550837fa1de2fe2de5db1a7d8e2025c4c87692ca3e8e95e03b2ec7c54e93f924cf7664a848460405191825260208201526040908101905180910390a25060015b5b9392505050565b6000805433600160a060020a0390811691161461053257600080fd5b30600160a060020a0316318210801561054b5750600082115b151561055657600080fd5b600160a060020a03831682156108fc0283604051600060405180830381858888f19350505050151561058757600080fd5b82600160a060020a03167f27a391d95d67e3626574fb5fbe3532bb7366e9254957b1f0e840953c248b2aa88360405190815260200160405180910390a25060015b5b929150505600a165627a7a7230582051bcb67f20e7e4ba01e9d3c85b9717bd3731b1a4c044b0a2a92c6c1e6f1598e10029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1504475777511
+}
