@@ -5,6 +5,8 @@ import "./Owned.sol";
 contract Stoppable is Owned {
   bool public active;
 
+  event LogTurnedOnOff(address indexed sender, bool indexedOnOff);
+
   function Stoppable(){
     active = true;
   }
@@ -18,5 +20,6 @@ contract Stoppable is Owned {
   public
   onlyOwner {
     active = isActive;
+    LogTurnedOnOff(msg.sender, isActive);
   }
 }
