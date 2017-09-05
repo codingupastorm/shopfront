@@ -31,7 +31,6 @@ contract Merchant is Stoppable {
 
 	function addProduct(uint256 id, uint256 price, uint256 stock)
 	onlyMerchant
-  mustBeActive
 	public
 	returns (bool) {
 		require(id > 0 && products[id].price == 0); // id not used
@@ -44,7 +43,6 @@ contract Merchant is Stoppable {
 
 	function removeProduct(uint256 id)
 	onlyMerchant
-  mustBeActive
 	public
 	returns (bool){
 		require(id > 0 && products[id].price != 0);
@@ -55,7 +53,6 @@ contract Merchant is Stoppable {
 
 	function withdraw(uint256 amount)
 	onlyMerchant
-  mustBeActive
 	public
 	returns (bool) {
 		require(amount < this.balance && amount > 0);
@@ -66,7 +63,6 @@ contract Merchant is Stoppable {
 
 	function pay(address to, uint256 amount)
 	onlyMerchant
-  mustBeActive
 	public
 	returns (bool) {
 		require(amount < this.balance && amount > 0);
@@ -79,18 +75,16 @@ contract Merchant is Stoppable {
 
 	function buyProduct(uint256 id)
 	payable
-  mustBeActive
 	public
 	returns (bool) {
 		require(products[id].stock > 0);
-		require(products[id].price >= msg.value);
+		require(msg.value >= products[id].price);
 		products[id].stock--;
+    MerchantHub trustedHub = MerchantHub(owner);
+    trustedHub.takeCut.value(products[id].price / 10)();
 		if (msg.value > products[id].price)
 			msg.sender.transfer(msg.value - products[id].price); //give change
-    MerchantHub ownerHub = MerchantHub(owner);
-    ownerHub.takeCut.value(products[id].price / 10)();
 		LogProductBought(msg.sender, id);
 		return true;
 	}
-
 }

@@ -5,6 +5,10 @@ import "./Owned.sol";
 contract Stoppable is Owned {
   bool public active;
 
+  function Stoppable(){
+    active = true;
+  }
+
   modifier mustBeActive {
     require(active);
     _;

@@ -14,7 +14,7 @@ contract MerchantHub is Owned {
     Merchant trustedMerchant = new Merchant(msg.sender);
     merchants.push(trustedMerchant);
     merchantExists[trustedMerchant] = true;
-    return merch;
+    return trustedMerchant;
   }
 
   function switchOnOffMerchant(address merchant, bool onOff)
