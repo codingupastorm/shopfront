@@ -6,8 +6,8 @@ import "./Stoppable.sol";
 contract Merchant is Stoppable {
 
   struct Product{
-	uint256 price;
-	uint256 stock;
+    uint256 price;
+    uint256 stock;
   }
 
   address public merchant;
