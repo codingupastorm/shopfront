@@ -7,6 +7,11 @@ contract MerchantHub is Owned {
   address[] public merchants;
   mapping(address => bool) public merchantExists;
 
+  event LogMerchantCreated(address indexed merchant);
+  event LogMerchantSwitched(address indexed merchant, bool onOff);
+  event LogCutReceived(address indexed merchant, uint256 indexed amount);
+  event LogWithdrawal(uint256 indexed amount);
+
   function createMerchant()
   public
   returns (address) {
@@ -14,6 +19,7 @@ contract MerchantHub is Owned {
     Merchant trustedMerchant = new Merchant(msg.sender);
     merchants.push(trustedMerchant);
     merchantExists[trustedMerchant] = true;
+    LogMerchantCreated(trustedMerchant);
     return trustedMerchant;
   }
 
@@ -24,6 +30,7 @@ contract MerchantHub is Owned {
     require(merchantExists[merchant]);
     Merchant trustedMerchant = Merchant(merchant);
     trustedMerchant.switchActive(onOff);
+    LogMerchantSwitched(merchant, onOff);
     return true;
   }
 
@@ -32,6 +39,7 @@ contract MerchantHub is Owned {
   payable
   returns (bool){
     require(merchantExists[msg.sender]);
+    LogCutReceived(msg.sender, msg.value);
     return true;
   }
 
@@ -41,7 +49,7 @@ contract MerchantHub is Owned {
   returns (bool) {
     require(amount < this.balance && amount > 0);
     msg.sender.transfer(amount);
+    LogWithdrawal(amount);
     return true;
   }
-
 }
