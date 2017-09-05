@@ -1,5 +1,5 @@
-var MetaCoin = artifacts.require("./Shop.sol");
+var MerchantHub = artifacts.require("./MerchantHub.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(Shop);
+  deployer.deploy(MerchantHub);
 };
