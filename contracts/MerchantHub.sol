@@ -7,7 +7,7 @@ contract MerchantHub is Owned {
   address[] public merchants;
   mapping(address => bool) public merchantExists;
 
-  event LogMerchantCreated(address indexed merchant);
+  event LogMerchantCreated(address indexed merchant, address indexed merchantOwner);
   event LogMerchantSwitched(address indexed merchant, bool onOff);
   event LogCutReceived(address indexed merchant, uint256 indexed amount);
   event LogWithdrawal(uint256 indexed amount);
@@ -19,7 +19,7 @@ contract MerchantHub is Owned {
     Merchant trustedMerchant = new Merchant(msg.sender);
     merchants.push(trustedMerchant);
     merchantExists[trustedMerchant] = true;
-    LogMerchantCreated(trustedMerchant);
+    LogMerchantCreated(trustedMerchant, msg.sender);
     return trustedMerchant;
   }
 
