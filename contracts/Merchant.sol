@@ -1,10 +1,16 @@
 pragma solidity ^0.4.6;
 
-import "./Amazon.sol";
+import "./MerchantHub.sol";
+import "./Stoppable.sol";
 
-contract Merchant {
-  address owner public;
-  Amazon amazon public;
+contract Merchant is Stoppable {
+
+  address public merchant;
+
+  modifier onlyMerchant {
+    require(msg.sender == merchant);
+    _;
+  }
 
   struct Product{
 		uint256 price;
@@ -13,9 +19,8 @@ contract Merchant {
 
 	mapping (uint256 => Product) public products;
 
-  function Merchant(address merchant){
-    owner = merchant;
-    amazon = msg.sender;
+  function Merchant(address merchantAddress){
+    merchant = merchantAddress;
   }
 
   event LogProductAdded(uint256 indexed id, uint256 price, uint256 stock);
@@ -24,23 +29,22 @@ contract Merchant {
 	event LogPayment(address indexed to, uint256 amount);
 	event LogProductBought(address indexed buyer, uint256 indexed id);
 
-	// admin actions
-
 	function addProduct(uint256 id, uint256 price, uint256 stock)
-	onlyOwner
+	onlyMerchant
+  mustBeActive
 	public
 	returns (bool) {
 		require(id > 0 && products[id].price == 0); // id not used
 		require(price > 0);
 		require(stock > 0);
 		products[id] = Product(price, stock);
-    amazon.addProduct(id);
 		LogProductAdded(id, price, stock);
 		return true;
 	}
 
 	function removeProduct(uint256 id)
-	onlyOwner
+	onlyMerchant
+  mustBeActive
 	public
 	returns (bool){
 		require(id > 0 && products[id].price != 0);
@@ -50,7 +54,8 @@ contract Merchant {
 	}
 
 	function withdraw(uint256 amount)
-	onlyOwner
+	onlyMerchant
+  mustBeActive
 	public
 	returns (bool) {
 		require(amount < this.balance && amount > 0);
@@ -60,7 +65,8 @@ contract Merchant {
 	}
 
 	function pay(address to, uint256 amount)
-	onlyOwner
+	onlyMerchant
+  mustBeActive
 	public
 	returns (bool) {
 		require(amount < this.balance && amount > 0);
@@ -73,6 +79,7 @@ contract Merchant {
 
 	function buyProduct(uint256 id)
 	payable
+  mustBeActive
 	public
 	returns (bool) {
 		require(products[id].stock > 0);
@@ -80,8 +87,8 @@ contract Merchant {
 		products[id].stock--;
 		if (msg.value > products[id].price)
 			msg.sender.transfer(msg.value - products[id].price); //give change
-
-    amazon.takeCut().value(products[id].price / 10);
+    MerchantHub ownerHub = MerchantHub(owner);
+    ownerHub.takeCut.value(products[id].price / 10)();
 		LogProductBought(msg.sender, id);
 		return true;
 	}
